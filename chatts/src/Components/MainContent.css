@@ -1,0 +1,22 @@
+.MainContainer {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+}
+.HeaderContainer{
+    flex: 1 1 auto;
+    padding: 3px;
+color :white;
+    background-color: #2399C4;
+}
+
+.navLinks {
+    color:white;
+    padding-right: 10px;
+}
+.InputContainer{
+    flex: 1 1 auto;
+
+
+}
+

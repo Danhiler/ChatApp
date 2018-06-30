@@ -1,0 +1,57 @@
+.MessagesContainer{
+    flex: 15 1 auto;
+    background-color: #2DC7FF;
+    height: 100%;
+    max-height: 100%;
+    padding: 10px;
+    margin: 0px;
+    overflow-y: auto;
+}
+
+li.MessageOther {
+    list-style-type: none;
+    border-radius: 15px;
+    border: #FF9C07 solid 2px;
+    background-color: #FFF1D0;
+    padding: 5px;
+
+    text-align: left;
+    max-width: 600px;
+    word-wrap: break-word;
+    margin-bottom: 7px;
+    display: inline-block;
+}
+
+li.MessageMe {
+    list-style-type: none;
+    border-radius: 15px;
+    border: #FF9C07 solid 2px;
+    background-color: #2399C4;
+    color: white;
+    padding: 5px;
+
+    text-align: left;
+    max-width: 600px;
+    word-wrap: break-word;
+    margin-bottom: 7px;
+    display: inline-block;
+}
+div.MessageMe{
+text-align: right;
+
+
+}
+
+div.MessageOther{
+    text-align: left;
+}
+.senderNameLabel{
+    font-size: 70%;
+    opacity: 0.8;
+}
+.timeMessageSentLabel{
+    font-size: 70%;
+    text-align: right;
+    opacity: 0.8;
+
+}

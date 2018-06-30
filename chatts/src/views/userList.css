@@ -1,0 +1,83 @@
+.UsersListContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+}
+.innerUsersListContainer {
+    position: absolute;
+    left: 20%;
+    right: 60%;
+    top: 10%;
+    bottom: 10%;
+
+    margin: auto;
+    background-color: #FFF1D0;
+    text-align: center;
+    animation-duration: 0.5s;
+    animation-name: slidein;
+    border-radius: 20px 0 0 20px;
+}
+.innerUsersListContainer  h1 {
+    color: #FF9C07;
+}
+.innerUsersListContainer h2{
+    margin-top: 5px;
+}
+.usersListeStyle {
+    margin: 0 auto;
+    width: 60%;
+    overflow-y: auto;
+    display: block;
+
+}
+::selection {
+    background-color: #2399C4; /* WebKit/Blink Browsers */
+    color: white;
+}
+.innerUsersListContainer  th, td {
+    color: white;
+
+    padding: 8px;
+    font-size: 1em;
+}
+.innerUsersListContainer  input{
+    border-radius: 15px;
+    margin: 3px;
+    padding: 3px;
+}
+@keyframes slidein {
+    from {
+        margin-left: 40%;
+    }
+    to {
+        margin-left: 00%;
+    }
+}
+.innerUsersListContainer{
+    background: #2DC7FF;
+    border-radius: 15px;
+    margin: 0 auto 20px;
+    border: #2399C4 solid 5px;
+}
+
+.innerUsersListContainer {
+    background: #2DC7FF;
+    border-radius: 15px;
+    margin: 0 auto;
+    border: #2399C4 solid 5px;
+    display: inline-block;
+    color: white;
+    padding: 5px;
+
+}
+.innerUsersListContainer  p{
+    width: 100%;
+    text-align: left;
+}
+

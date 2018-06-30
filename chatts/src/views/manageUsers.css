@@ -1,0 +1,73 @@
+.manageUsersContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+}
+
+.innerUsersContainer {
+    position: absolute;
+    left: 40%;
+    right: 0%;
+    top: 5%;
+    bottom: 5%;
+
+    margin: auto;
+    background-color: #FFF1D0;
+    text-align: center;
+    animation-duration: 0.5s;
+    animation-name: slidein;
+    border-radius: 20px 0 0 20px;
+}
+.innerUsersContainer  h1 {
+    color: #FF9C07;
+}
+.innerUsersContainer h2{
+    margin-top: 5px;
+}
+.innerUsersContainer  th, td {
+    color: white;
+
+    padding: 8px;
+    font-size: 1em;
+}
+.innerUsersContainer  input{
+    border-radius: 15px;
+    margin: 3px;
+    padding: 3px;
+}
+@keyframes slidein {
+    from {
+        margin-left: 40%;
+    }
+    to {
+        margin-left: 00%;
+    }
+}
+.usersTableStyle{
+    background: #2DC7FF;
+    border-radius: 15px;
+    margin: 0 auto 20px;
+    border: #2399C4 solid 5px;
+}
+
+.usersTablediv {
+    background: #2DC7FF;
+    border-radius: 15px;
+    margin: 0 auto;
+    border: #2399C4 solid 5px;
+    display: inline-block;
+    color: white;
+    padding: 5px;
+
+}
+.innerUsersContainer  p{
+    width: 100%;
+    text-align: left;
+}
+

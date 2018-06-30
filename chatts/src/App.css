@@ -1,0 +1,26 @@
+.AppContainer {
+    flex-grow: 10;
+display: flex;
+  flex-direction: row;
+
+}
+.SideBar {
+  flex-basis: 10em;
+ padding: 0px;
+    margin: 0px;
+  user-select: none;
+    background-color: #FFF1D0;
+}
+.Main {
+  flex-grow: 1;
+  background-color: darkgoldenrod;
+}
+.topBar {
+    flex-basis: 1em;
+    background-color: #FF9C07;
+}
+.ScreenContainer {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+}

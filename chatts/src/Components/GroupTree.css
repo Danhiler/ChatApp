@@ -1,0 +1,61 @@
+.selected {
+    background-color: #FF9C07;
+
+}
+.GroupNode {
+    vertical-align: middle;
+    padding: 3px;
+    border-bottom: #FF9C07 3px solid;
+}
+.GroupsList {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.groupli{
+    vertical-align: middle;
+    display: block;
+
+
+}
+.ToggleCrtGroupBtn {
+
+    display: block;
+    margin:10px auto;
+    background-color: #FF9C07;
+    color: white;
+    border-radius: 10px;
+    font-size: 1em;
+
+}
+.CancelCrtGroupBtn {
+    display: block;
+    margin:10px auto;
+    background-color: #2399C4;
+    color: white;
+    border-radius: 10px;
+    font-size: 1em;
+
+}
+
+.CrtGroupBtn {
+
+    display: inline-block;
+    width: 30%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    background-color: #FF9C07;
+}
+
+
+.addGroupInput {
+    width:70%;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
