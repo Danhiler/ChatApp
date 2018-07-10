@@ -8,11 +8,11 @@ userRouter.delete('/:userIndex', (req, res) => {
     const newUserList = userServices_1.default.deleteUser(deleteUserIndex);
     res.json(newUserList);
 });
-userRouter.post('/', (req, res) => {
-    // console.log(req.body)
-    const newUserList = userServices_1.default.createUser(req.body);
-    res.json(newUserList);
-});
+// userRouter.post('/', (req,res)=>{ //create new User
+// // console.log(req.body)
+//    const newUserList = userServices.createUser(req.body)
+//    res.json(newUserList)
+// });
 userRouter.put('/', (req, res) => {
     const newUserList = userServices_1.default.updateUser(req.body);
     res.json(newUserList);

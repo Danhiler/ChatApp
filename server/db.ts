@@ -1,4 +1,7 @@
 import * as fs from 'fs'
+import Group from "./models/Group";
+
+
 
 class DB {
     users;
@@ -9,6 +12,7 @@ class DB {
         this.users = this.readFromJson('users.json');
         this.groups = this.readFromJson('groups.json');
         this.usersInGroups = this.readFromJson('usersInGroups.json');
+
 
     }
 

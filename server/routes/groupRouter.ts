@@ -1,18 +1,21 @@
-import{Router} from 'express';
+import {Router} from 'express';
 import groupServices from '../services/groupServices'
 
 const groupRouter = Router();
 
-groupRouter.delete('/:groupId', (req,res)=>{
-    const deleteGroupId = req.params.groupId;
-    const newGroupList = groupServices.deleteGroup(deleteGroupId)
 
+groupRouter.delete('/:groupId', async (req, res) => {
+    const deleteGroupId = req.params.groupId;
+    const newGroupList = await groupServices.deleteGroup(deleteGroupId)
     res.json(newGroupList)
 });
 
-groupRouter.post('/', (req,res)=>{ //create new Group
+groupRouter.post('/', async (req,res)=>{ //create new Group
      const {newGroupName, parentId} = req.body
-    const newGroupList = groupServices.createGroup(parentId,newGroupName)
+    console.log(req.body)
+
+    const newGroupList = await groupServices.createGroup(parentId,newGroupName)
+
     res.json(newGroupList)
 });
 
@@ -24,27 +27,27 @@ groupRouter.post('/', (req,res)=>{ //create new Group
 // If there are more than two arguments, the second argument will be
 // counted as a middleware
 
-function flatToHierarchy (flat) {
+function flatToHierarchy(flat) {
 
     const roots = {} // things without parent
 
     // make them accessible by guid on this map
     const all = {}
 
-    flat.forEach(function(item) {
+    flat.forEach(function (item) {
         all[item.id] = item
     })
     // connect childrens to its parent, and split roots apart
-    Object.keys(all).forEach(function (id){
+    Object.keys(all).forEach(function (id) {
         let item = all[id];
         if (item.parent === null) {
-            roots[item.name]= item
+            roots[item.name] = item
         } else if (item.parent in all) {
             let p = all[item.parent]
             if (!('childs' in p)) {
                 p.childs = {}
             }
-            p.childs[item.name]=item;
+            p.childs[item.name] = item;
         }
     })
 

@@ -10,11 +10,11 @@ userRouter.delete('/:userIndex', (req,res)=>{
     res.json(newUserList)
 });
 
-userRouter.post('/', (req,res)=>{ //create new User
-// console.log(req.body)
-   const newUserList = userServices.createUser(req.body)
-   res.json(newUserList)
-});
+// userRouter.post('/', (req,res)=>{ //create new User
+// // console.log(req.body)
+//    const newUserList = userServices.createUser(req.body)
+//    res.json(newUserList)
+// });
 
 userRouter.put('/', (req,res)=>{ //update existing User
    const newUserList = userServices.updateUser(req.body)

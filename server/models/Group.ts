@@ -1,5 +1,4 @@
 import groupService from "../services/groupServices";
-import * as uuidv1 from 'uuid/v1'
 
 class Group {
     private name: string;
@@ -8,10 +7,8 @@ class Group {
     private userCount: number;
     private messageHistory: any[];
     private show: boolean;
-    private id: string;
 
     constructor(groupName, parentID) {
-        this.id= uuidv1();
         this.name = groupName;
         this.parent = ""+parentID;
         this.type = 0;//0 empty, 1 users, 2 groups
@@ -57,7 +54,6 @@ class Group {
     //     }
     //     this.updateUserCount(-1)
     // }
-
     // updateUserCount(count){
     //         var node = this;
     //         while(node!==null) {
@@ -85,7 +81,6 @@ class Group {
     //         this.parent.childs = this.childs
     //
     //     }
-
 
 // }
 }

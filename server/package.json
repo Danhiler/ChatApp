@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "start": "nodemon -e ts -w ./src -x npm run build",
+    "start": "node -e ts",
     "build": "ts-node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "mongoose": "^5.2.2",
     "socket.io": "^2.1.1",
     "uniqid": "^5.0.3",
     "uuid": "^3.2.1"
