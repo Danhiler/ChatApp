@@ -16,17 +16,24 @@ interface Iprops {
 
 
 class GroupsTree extends React.Component<Iprops,{}> {
-    private ref: HTMLElement;
-
     constructor(props: Iprops) {
         super(props)
     }
 
     public componentDidUpdate() {
         if (this.props.items.childs) {
+            const uls = $('.GroupsList')
             // console.log($('.GroupsList .GroupNode'))
              $('.GroupsList .GroupNode').remove()
-            this.load(this.props.items, $(this.ref), 0)
+            this.load(this.props.items, uls, 0)
+        }
+    }
+    componentDidMount(){
+        if (this.props.items.childs) {
+            const uls = $('.GroupsList')
+            // console.log($('.GroupsList .GroupNode'))
+            $('.GroupsList .GroupNode').remove()
+            this.load(this.props.items, uls, 0)
         }
     }
     shouldComponentUpdate(nextProps: Iprops) {
@@ -36,7 +43,7 @@ class GroupsTree extends React.Component<Iprops,{}> {
 
     public render() {
         return (<div>
-                <ul className="GroupsList" ref={elem => this.ref = elem} />
+                <ul className="GroupsList" />
             </div>
         )
     }
@@ -152,15 +159,12 @@ class GroupsTree extends React.Component<Iprops,{}> {
         }
     }
 
-
     paintLi($li: JQuery) {
         $('li').removeClass('selected');
         $li.addClass('selected');
         console.log($li)
 
         this.props.updateCurGroup($li.data('item'))
-
-
     }
 
 }

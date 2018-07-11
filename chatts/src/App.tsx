@@ -17,7 +17,7 @@ import Iuser from "./interfaces/iuser";
 import { BrowserRouter, Route,Switch, Redirect } from 'react-router-dom'
 import ManageUsers from "./views/manageUsers";
 import ManageGroups from "./views/manageGroups";
-import { connectToChatRoom } from './api/messagesApi';
+import { connectToChatRoom, sendMessage} from './api/messagesApi';
 
 interface Istate {
     items:Igroup,
@@ -38,11 +38,11 @@ class App extends React.Component<{},Istate> {
         appService.getData()
       this.state={
           items:appStore.groups,
-          users:null,
+          users:appStore.users,
           selectedGroup:appStore.groups,
           loggedUser:null
 
-      }
+      };
         connectToChatRoom()
 
     appService.subscribe((newUsers:Iuser[],newGroups:Igroup)=>{
@@ -68,7 +68,7 @@ class App extends React.Component<{},Istate> {
                                                                   updateCurGroup={this.updateCurGroup}/> </div>
                             <div className="Main" ><MainContent selectedGroup={this.state.selectedGroup} handleSend={this.handleSend}/></div>
                             <Route path='/users' name='manageUsersComp' render={({}) => (
-                                <ManageUsers users={this.state.users}/>
+                                <ManageUsers users={appStore.users}/>
                             )}/>
 
                             <Route path='/groups' name='manageGroupsComp' render={({}) => (
@@ -92,7 +92,7 @@ class App extends React.Component<{},Istate> {
           return ""
   }
   handleLogin(typedUsername:string,typedPassword:string){
-        const loggedUser=appStore.users.find((user)=>user.userName===typedUsername&& user.password===typedPassword)
+        const loggedUser=appStore.users.find((user)=>user.username===typedUsername&& user.password===typedPassword)
       if(loggedUser){
             appService.logIn(loggedUser)
       }
@@ -102,16 +102,17 @@ class App extends React.Component<{},Istate> {
     }
 
   updateCurGroup = (group:Igroup)=>{
-if(group.type===2) {
+//if(group.type===2) {
     this.setState({selectedGroup: group})
-}
+//}
   };
 
   handleSend= ( msg:Imessage)=>{
 
-      const curGroup = this.state.selectedGroup;
-      curGroup.messageHistory.push(msg);
-      this.setState({selectedGroup:curGroup})
+      //const curGroup = this.state.selectedGroup;
+      sendMessage(this.state.selectedGroup._id,msg)
+
+//      this.setState({selectedGroup:curGroup})
 
   }
     arrowListeners() {

@@ -7,7 +7,7 @@ import groupRouter from "./routes/groupRouter";
 import usersInGroupRouter from './routes/usersInGroupRouter';
 
 import GroupModel from "./mongoServer/groupsModel";
-import {User as UserModel} from "./mongoServer/UsersModel";
+import UserModel from "./mongoServer/UsersModel";
 import UserInGroupsModel from "./mongoServer/UsersInGroupsModel";
 
 

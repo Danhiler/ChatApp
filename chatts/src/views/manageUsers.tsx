@@ -14,7 +14,8 @@ class ManageUsers extends React.Component <Iprops,any>{
 
         this.state={
             selectedUser:{
-                userName:'',
+                _id:'',
+                username:'',
                 password:'',
                 age:''
             }
@@ -39,18 +40,18 @@ class ManageUsers extends React.Component <Iprops,any>{
                 {this.props.users.map((user,index)=>{
                     return (<tr className="userInList" key={index}>
                         <td >{index+1}</td>
-                        <td >{user.userName}</td>
+                        <td >{user.username}</td>
                         <td >{user.password}</td>
                         <td >{user.age}</td>
                         <td ><button onClick={this.editUser.bind(this,user)}>edit </button></td>
-                        <td ><button onClick={this.handleDeleteUser.bind(this,user.id)}>delete</button></td>
+                        <td ><button onClick={this.handleDeleteUser.bind(this,user._id)}>delete</button></td>
                         </tr>)
 
                 })}
                 </table>
                 <div className="usersTablediv">
                     <h2>Create/Edit User</h2>
-                    <p>Username: <input type="input" id="userName" value={this.state.selectedUser.userName} onChange={this.updateField}/></p>
+                    <p>Username: <input type="input" id="username" value={this.state.selectedUser.username} onChange={this.updateField}/></p>
                     <p>Password: <input type="input" id="password" value={this.state.selectedUser.password} onChange={this.updateField}/></p>
                     <p>Age: <input type="input" id="age" value={this.state.selectedUser.age} onChange={this.updateField}/></p>
                     <input type="button" value="save" onClick={this.handleUpdateUser}/>

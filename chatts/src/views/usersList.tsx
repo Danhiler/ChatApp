@@ -18,7 +18,7 @@ class UsersList extends React.Component <Iprops,any>{
             <h1>Users List</h1>
         <select className="usersListeStyle" id="selectUsers" multiple={true}>
         {this.props.users.map((user,index)=>{
-            return (<option value={user.id} className="userInList" key={index}>{user.userName}</option>)})}
+            return (<option value={user._id} className="userInList" key={index}>{user.username}</option>)})}
         </select>
         <input type="button" value="save" onClick={this.handleSave}/>
         </div>

@@ -2,7 +2,7 @@ import {appStore} from "./StateStore";
 import Iuser from "./interfaces/iuser";
 import {ClientApi} from "./api/ClientApi";
 import Igroup from "./interfaces/igroup";
-import flatToHierarchy from "./helpers";
+import {flatToHierarchy} from "./helpers";
 
 export class AppService  {
     listeners: Function[];
@@ -45,13 +45,7 @@ export class AppService  {
         appStore.groups= flatToHierarchy(groupsArr,usersInGroup)
         this.updateUI();
     }
-    getUserById(userId:string){
-        return appStore.users.find((user)=> user.id === userId)
-        }
-    getGroupById(flatGroups:any, groupId:string){
-        return flatGroups.find((group:any)=>group.id===groupId)
 
-    }
 }
 
 export const appService: AppService = new AppService();

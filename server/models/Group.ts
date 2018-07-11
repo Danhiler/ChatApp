@@ -7,6 +7,7 @@ class Group {
     private userCount: number;
     private messageHistory: any[];
     private show: boolean;
+    private isRoot:boolean
 
     constructor(groupName, parentID) {
         this.name = groupName;
@@ -16,6 +17,7 @@ class Group {
         this.messageHistory=[]
 
         this.show=false;
+        this.isRoot=false
     }
 
 

@@ -1,9 +1,6 @@
-import db from '../db'
 import GroupModel from "../mongoServer/groupsModel";
 
 import Group from '../models/Group'
-
-var mongoose = require('mongoose');
 
 class groupService {
 
@@ -18,7 +15,6 @@ class groupService {
         }
 
     }
-
 
     static async createGroup(parentGroupId, newGroupName) {
         //if(db.groups.find) check if group name already exsist

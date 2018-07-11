@@ -16,5 +16,5 @@ export const appStore: AppState = {
     groups: new Group("global",null),
     loggedUser: null,
     users: [],
-    usersInGroups:{}
+    usersInGroups:{},
 };

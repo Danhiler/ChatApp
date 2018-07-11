@@ -1,7 +1,7 @@
 // import {appStore} from "./StateStore";
 import {ClientApi} from "../api/ClientApi";
 import {appService} from "../StateService";
-import flatToHierarchy from "../helpers";
+import {flatToHierarchy} from "../helpers";
 import {appStore} from "../StateStore";
 
 

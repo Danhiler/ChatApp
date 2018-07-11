@@ -3,7 +3,6 @@
  import {ClientApi} from "../api/ClientApi";
 import {appService} from "../StateService";
 
-
 export class userService  {
 
     static async deleteUser(id:string){
@@ -20,5 +19,4 @@ export class userService  {
        appService.updateUsersList(userList)
     }
 }
-
 export default userService;

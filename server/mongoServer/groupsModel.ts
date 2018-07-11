@@ -12,4 +12,5 @@ const GroupSchema = new Schema({
     id: String,
 })
 
-export default mongoose.model('Group',GroupSchema);
+
+export default mongoose.models.Group || mongoose.model('Group', GroupSchema);

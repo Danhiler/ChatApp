@@ -1,14 +1,16 @@
 import{Router} from 'express';
-import groupServices from '../services/groupServices'
 import usersInGroupServices from '../services/usersInGroupServices';
+import GroupModel from "../mongoServer/GroupsModel";
+
 
 const usersInGroupRouter = Router();
 
-usersInGroupRouter.put('/', (req,res)=>{ //update users in group
-    const {groupId, usersIdArr} = req.body
+usersInGroupRouter.put('/', async (req,res)=>{ //update users in group
+    const {groupId, usersIdArr} = req.body;
 
-    const updatedUsersInGroupsAndGroupsArr = usersInGroupServices.updateUsersInGroup(groupId,usersIdArr)
-    res.json(updatedUsersInGroupsAndGroupsArr)
+    const updatedUsersInGroupsArr =  await usersInGroupServices.updateUsersInGroup(groupId,usersIdArr)
+    const updatedGroupsArr = await GroupModel.find()
+    res.json({usersInGroup:updatedUsersInGroupsArr,groupsArr:updatedGroupsArr})
 });
 
 // groupRouter.put('/', (req,res)=>{ //update existing User

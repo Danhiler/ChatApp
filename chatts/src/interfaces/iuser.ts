@@ -1,6 +1,6 @@
 interface Iuser {
-    id:string,
-    userName:string,
+    _id:string,
+    username:string,
     password:string,
     age:number|string
 

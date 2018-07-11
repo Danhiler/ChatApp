@@ -2,6 +2,7 @@ import * as React from 'react';
 import './MessageHistory.css';
 import {appStore} from "../StateStore";
 import Imessage from "../interfaces/Imessage";
+import {getUserById} from "../helpers";
 
 interface IMessageHistoryProps {
     messageHistory: Imessage[]
@@ -11,18 +12,20 @@ const printMessages = (props:IMessageHistoryProps)=> {
  //if(appStore.loggedUser!==null){
         return props.messageHistory
             .map((msg:Imessage,index:number) => {
-                    const msgDate =new Date(msg.time)
 
-                    let messageClass = appStore.loggedUser.userName === msg.user.userName ? 'MessageMe':'MessageOther';
-                    return <div key={index} className={messageClass}>
+              const user = getUserById(msg.user)
+
+                    const msgDate =new Date(msg.time)
+                console.log(msgDate)
+                let messageClass = appStore.loggedUser.username === user.username ? 'MessageMe':'MessageOther';
+
+                return <div key={index} className={messageClass}>
 
                         <li className={messageClass} key={index}>
-                            <div className="senderNameLabel">{msg.user.userName}</div>
+                            <div className="senderNameLabel">{user.username}</div>
                             {msg.content}
                             <div className="timeMessageSentLabel">{msgDate.getHours()+":"+msgDate.getMinutes()}</div>
                         </li>
-
-
                     </div>
                 }
 

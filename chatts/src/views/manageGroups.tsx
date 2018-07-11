@@ -76,7 +76,7 @@ class ManageGroups extends React.Component <Iprops, any>{
 
 
     private handleSaveUsers=(usersIdArr:string[])=> {
-        groupService.updateUsersAtGroup(this.state.selectedGroup.id,usersIdArr)
+        groupService.updateUsersAtGroup(this.state.selectedGroup._id,usersIdArr)
 this.setState({showUsersList:false})
     }
 
@@ -86,13 +86,13 @@ this.setState({showUsersList:false})
     }
 
     private handleDeleteGroup=()=> {
-        console.log(this.state.selectedGroup.id)
-        if(this.state.selectedGroup.id){
-        groupService.deleteGroup(this.state.selectedGroup.id)
+        console.log(this.state.selectedGroup._id)
+        if(this.state.selectedGroup._id){
+        groupService.deleteGroup(this.state.selectedGroup._id)
     }}
 
     private handleCreateGroup=()=> {
-        let selectedGroupId = this.state.selectedGroup.id;
+        let selectedGroupId = this.state.selectedGroup._id;
         if(!selectedGroupId){selectedGroupId=0}
             groupService.createGroup(selectedGroupId,this.state.groupName)
     }

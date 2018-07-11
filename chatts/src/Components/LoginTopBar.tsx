@@ -47,7 +47,7 @@ class LogintopBar extends React.Component<any,any>{
     // }
     //
     showLoggedUsername() {
-        return appStore.loggedUser ? appStore.loggedUser.userName : "Login";
+        return appStore.loggedUser ? appStore.loggedUser.username : "Login";
     }
 }
 export default LogintopBar
