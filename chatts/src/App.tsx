@@ -17,7 +17,8 @@ import Iuser from "./interfaces/iuser";
 import { BrowserRouter, Route,Switch, Redirect } from 'react-router-dom'
 import ManageUsers from "./views/manageUsers";
 import ManageGroups from "./views/manageGroups";
-import { connectToChatRoom, sendMessage} from './api/messagesApi';
+//import { connectToChatRoom, sendMessage} from './api/messagesApi';
+import {connect} from 'react-redux';
 
 interface Istate {
     items:Igroup,
@@ -25,40 +26,34 @@ interface Istate {
     selectedGroup:Igroup,
     loggedUser:Iuser|null
 }
-interface Iprops {
-    items:Igroup,
-    users:string,
-    selectedGroup:Igroup | null
-}
+
 
 class App extends React.Component<{},Istate> {
 
-    constructor(props:Iprops){
-        super(props);
-        appService.getData()
-      this.state={
-          items:appStore.groups,
-          users:appStore.users,
-          selectedGroup:appStore.groups,
-          loggedUser:null
-
-      };
-        connectToChatRoom()
-
-    appService.subscribe((newUsers:Iuser[],newGroups:Igroup)=>{
-    this.setState({users:newUsers,items:newGroups});
-    })
-    }
+    // constructor(props:){
+    //     super(props);
+    //     appService.getData()
+    //   this.state={
+    //       items:appStore.groups,
+    //       users:appStore.users,
+    //       selectedGroup:appStore.groups,
+    //       loggedUser:null
+    //   };
+    //     connectToChatRoom()
+    //
+    // appService.subscribe((newUsers:Iuser[],newGroups:Igroup)=>{
+    // this.setState({users:newUsers,items:newGroups});
+    // })
+    // }
 
   public render() {
     return (
         <BrowserRouter>
-
         <div className="ScreenContainer">
             {this.IsUserLoogedIn}
+            {console.log(this.props)}
         <div className="topBar"><LoginTopBar loggedUser={this.state.loggedUser}/></div>
                 <Switch>
-
                     <Route path='/' name='main' render={({}) => (
                         <div className="AppContainer">
                             <Route path='/login' name='login' render={({}) => (
@@ -75,16 +70,14 @@ class App extends React.Component<{},Istate> {
                                 <ManageGroups groups={appStore.groups}/>
                             )}/>
                         </div>
-
                     )}/>
-
-
                 </Switch>
-
         </div>
         </BrowserRouter>
     );
   }
+
+
   IsUserLoogedIn(){
       if (!this.state.loggedUser) {
           return <Redirect to='/login'/>;
@@ -107,14 +100,14 @@ class App extends React.Component<{},Istate> {
 //}
   };
 
-  handleSend= ( msg:Imessage)=>{
-
-      //const curGroup = this.state.selectedGroup;
-      sendMessage(this.state.selectedGroup._id,msg)
-
-//      this.setState({selectedGroup:curGroup})
-
-  }
+//   handleSend= ( msg:Imessage)=>{
+//
+//       //const curGroup = this.state.selectedGroup;
+//       sendMessage(this.state.selectedGroup._id,msg)
+//
+// //      this.setState({selectedGroup:curGroup})
+//
+//   }
     arrowListeners() {
         document.addEventListener('keydown',(e)=>{
             let selected = $(".selected");
@@ -188,4 +181,31 @@ class App extends React.Component<{},Istate> {
 
 }
 
-export default App;
+
+const mapStateToProps = ({ groups,loggedUser,users,usersInGroups}:any, ownProps:any) => {
+    return {groups,
+        loggedUser,
+        users,
+        usersInGroups
+    }
+};
+
+const mapDispatchToProps = (dispatch:any, ownProps:any) => {
+    return {
+        getData: () => {
+            dispatch(getData())
+        },
+
+    }
+}
+
+const ConnectedApp = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
+
+console.log("ConnectedApp", ConnectedApp);
+
+export default ConnectedApp;
+
+//export default App;

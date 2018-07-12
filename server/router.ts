@@ -22,7 +22,7 @@ app.get('/', (req,res)=> {
 app.use('/getData', (req,res)=> {
     Promise.all([UserModel.find(),GroupModel.find(),UserInGroupsModel.find()])
         .then(([users,groups,usersInGroups])=>{
-            const data ={"users":users,"groups":groups,"usersInGroup":usersInGroups}
+            const data ={"users":users,"groups":groups,"usersInGroups":usersInGroups}
             res.json(data)
         })
 
