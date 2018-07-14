@@ -1,22 +1,30 @@
-// import {appStore} from "./StateStore";
+
  import Iuser from "../interfaces/iuser";
  import {ClientApi} from "../api/ClientApi";
-import {appService} from "../StateService";
+import {getActionType} from "../helpers";
 
-export class userService  {
+ class userService  {
 
-    static async deleteUser(id:string){
-        const userList = await ClientApi.delete('/users',id)
-        appService.updateUsersList(userList)
+    static deleteUser(id:string){
+        return async(dispatch:any)=>{
+            const userList = await ClientApi.delete('/users',id)
+            dispatch(getActionType("UPDATE_USERS",userList))
+        }
     }
 
-    static async createUser(newUser:Iuser){
-        const userList = await ClientApi.post('/users',newUser)
-        appService.updateUsersList(userList)
+    static createUser(newUser:Iuser){
+        return async(dispatch:any)=>{
+            const userList = await ClientApi.post('/users',newUser)
+            dispatch(getActionType("UPDATE_USERS",userList))
+        }
     }
-    static async updateUser(updatedUser:Iuser){
-       const userList = await ClientApi.put('/users',updatedUser)
-       appService.updateUsersList(userList)
+    static updateUser(updatedUser:Iuser){
+        return async(dispatch:any)=>{
+            const userList = await ClientApi.put('/users',updatedUser)
+            dispatch(getActionType("UPDATE_USERS",userList))
+        }
     }
 }
+
+
 export default userService;

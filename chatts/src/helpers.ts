@@ -1,7 +1,8 @@
 import Igroup from "./interfaces/igroup";
-import {appStore} from "./StateStore";
+//import {appStore} from "./StateStore";
+import Iuser from "./interfaces/iuser";
 
-function flatToHierarchy (flat:Array<Igroup>,usersInGroup:any) {
+function flatToHierarchy (flat:Array<Igroup>,usersInGroup:any,users:Iuser[]) {
 if (!flat)return {};
     const roots = {} // things without parent
     // make them accessible by guid on this map
@@ -11,7 +12,7 @@ if (!flat)return {};
         let group = getGroupById(flat, usersInGroup[index].groupId)
         for (const userId of usersInGroup[index].usersId) {
 
-            let user = getUserById(userId)
+            let user = getUserById(userId,users)
             if(user && group) {
                 if (!('childs' in group)) {
                     group.childs = {}
@@ -41,14 +42,22 @@ if (!flat)return {};
     })
     // done!
     return roots["global"]
+
+
+}
+function getUserById(userId:string,users:Iuser[]){
+    return users.find((user)=> user._id === userId)
 }
 
-function getUserById(userId:string){
-    return appStore.users.find((user)=> user._id === userId)
-}
 function getGroupById(flatGroups:any, groupId:string){
     return flatGroups.find((group:any)=>group._id===groupId)
 
 }
-export {getUserById,getGroupById,flatToHierarchy}
+function getActionType(type: string, data: any) {
+    return{
+        type:type,
+        data:data
+    }
+}
+export {getUserById,getGroupById,flatToHierarchy,getActionType}
 

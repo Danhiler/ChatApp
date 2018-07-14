@@ -1,26 +1,26 @@
 import * as React from 'react';
 import './MessageHistory.css';
-import {appStore} from "../StateStore";
 import Imessage from "../interfaces/Imessage";
 import {getUserById} from "../helpers";
+import Iuser from "../interfaces/iuser";
+import {connect} from "react-redux";
+//import groupService from "../services/groupService";
 
 interface IMessageHistoryProps {
-    messageHistory: Imessage[]
+    messageHistory: Imessage[],
+    users:Iuser[],
+    loggedUser:Iuser
 }
 
 const printMessages = (props:IMessageHistoryProps)=> {
  //if(appStore.loggedUser!==null){
         return props.messageHistory
             .map((msg:Imessage,index:number) => {
-
-              const user = getUserById(msg.user)
-
+              const user = getUserById(msg.user,props.users)
                     const msgDate =new Date(msg.time)
-                console.log(msgDate)
-                let messageClass = appStore.loggedUser.username === user.username ? 'MessageMe':'MessageOther';
+                let messageClass = props.loggedUser.username === user.username ? 'MessageMe':'MessageOther';
 
                 return <div key={index} className={messageClass}>
-
                         <li className={messageClass} key={index}>
                             <div className="senderNameLabel">{user.username}</div>
                             {msg.content}
@@ -28,7 +28,6 @@ const printMessages = (props:IMessageHistoryProps)=> {
                         </li>
                     </div>
                 }
-
             )
    // }
 
@@ -39,5 +38,25 @@ const MessagesHistory: React.StatelessComponent<IMessageHistoryProps>  = (props)
             </ul>);
 }
 
-export default MessagesHistory;
+const mapStateToProps = (state: any, ownProps: any) => {
+    return {
+        users:state.users,
+        loggedUser:state.loggedUser,
+        ownProps
+    }
+};
+
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+    return {
+
+    }
+};
+const connectedMessagesHistory = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(MessagesHistory)
+
+export default connectedMessagesHistory;
+
+
 

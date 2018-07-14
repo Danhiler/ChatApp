@@ -1,27 +1,29 @@
-// import {appStore} from "./StateStore";
 import {ClientApi} from "../api/ClientApi";
-import {appService} from "../StateService";
-import {flatToHierarchy} from "../helpers";
-import {appStore} from "../StateStore";
+import { getActionType} from "../helpers";
 
 
-export class groupService  {
+ class groupService  {
 
-    static async deleteGroup(id:string){
-
-        const arrGroupsList = await ClientApi.delete('/groups',id)
-        appService.updateGroupList(flatToHierarchy(arrGroupsList,appStore.usersInGroups))
+    static deleteGroup(id:string){
+        return async(dispatch:any)=>{
+            const arrGroupsList = await ClientApi.delete('/groups',id)
+            dispatch(getActionType("UPDATE_GROUPS",arrGroupsList))
+        }
     }
 
-    static async createGroup(parentId: string, newGroupName: string) {
-        const arrGroupsList = await ClientApi.post('/groups',{newGroupName, parentId})
-        const groupsList = flatToHierarchy(arrGroupsList,appStore.usersInGroups)
-        appService.updateGroupList(groupsList)
+    static createGroup(parentId: string, newGroupName: string) {
+
+        return async(dispatch:any)=>{
+            const arrGroupsList = await ClientApi.post('/groups',{newGroupName, parentId})
+            dispatch(getActionType("UPDATE_GROUPS",arrGroupsList))
+        }
     }
 
-    static async updateUsersAtGroup(groupId: string, usersIdArr: string[]) {
-        const usersInGroupsAndGroupsArr = await ClientApi.put('/userInGroups',{groupId, usersIdArr})
-        appService.updateUsersInGroup(usersInGroupsAndGroupsArr)
+    static updateUsersAtGroup(groupId: string, usersIdArr: string[]) {
+        return async(dispatch:any)=>{
+            const arrGroupsListAndUserInGroups = await ClientApi.put('/userInGroups',{groupId, usersIdArr})
+            dispatch(getActionType("UPDATE_USERSINGROUPS",arrGroupsListAndUserInGroups))
+        }
     }
 }
 

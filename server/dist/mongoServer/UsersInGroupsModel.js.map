@@ -1,0 +1,1 @@
+{"version":3,"file":"UsersInGroupsModel.js","sourceRoot":"","sources":["../../mongoServer/UsersInGroupsModel.ts"],"names":[],"mappings":";;AAAA,qCAAoC;AAEpC,MAAM,MAAM,GAAG,QAAQ,CAAC,MAAM,CAAC;AAE/B,MAAM,kBAAkB,GAAG,IAAI,MAAM,CAAC;IAClC,OAAO,EAAE,MAAM;IACf,OAAO,EAAE,CAAC,MAAM,CAAC;CACpB,CAAC,CAAA;AAEF,kBAAe,QAAQ,CAAC,KAAK,CAAC,aAAa,EAAC,kBAAkB,CAAC,CAAC"}

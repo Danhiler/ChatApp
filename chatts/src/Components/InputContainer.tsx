@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './InputContainer.css'
-import {appStore} from '../StateStore'
 import Iuser from "../interfaces/iuser";
 import Imessage from "../interfaces/Imessage";
 
@@ -8,6 +7,7 @@ interface Istate {
     text:string
 }
 interface Iprops {
+    loggedUser:Iuser,
     handleSend:(msg:Imessage)=>void
 }
 class InputContainer extends React.Component<Iprops,Istate>{
@@ -30,7 +30,7 @@ class InputContainer extends React.Component<Iprops,Istate>{
 
     handleSend=()=> {
         //var socket = io();
-        const msg = this.createMsg(this.state.text,appStore.loggedUser)
+        const msg = this.createMsg(this.state.text,this.props.loggedUser)
         this.props.handleSend(msg)
         this.setState({text:""})
 

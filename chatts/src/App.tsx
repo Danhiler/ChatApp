@@ -3,71 +3,65 @@ import './App.css';
 
 import GroupsTree from "./Components/GroupsTree";
 import MainContent from './Components/MainContent';
-
-import Igroup from "./interfaces/igroup";
-
-import Imessage from "./interfaces/Imessage";
-import {appStore} from "./StateStore";
-
 import LoginTopBar from "./Components/LoginTopBar";
 import LoginPopup from "./Components/LoginPop";
-import {appService} from "./StateService";
-import * as $ from "jquery";
+
+import Igroup from "./interfaces/igroup";
+import Imessage from "./interfaces/Imessage";
 import Iuser from "./interfaces/iuser";
+
+import * as $ from "jquery";
 import { BrowserRouter, Route,Switch, Redirect } from 'react-router-dom'
 import ManageUsers from "./views/manageUsers";
 import ManageGroups from "./views/manageGroups";
-//import { connectToChatRoom, sendMessage} from './api/messagesApi';
 import {connect} from 'react-redux';
 
-interface Istate {
-    items:Igroup,
-    users:Iuser[] |null,
-    selectedGroup:Igroup,
-    loggedUser:Iuser|null
+import {getData, updateCurrentGroup, updateMessageHistory, userLogin} from "./redux-action"
+import * as openSocket from "socket.io-client";
+
+interface AppProps {
+    groups: Igroup,
+    loggedUser: Iuser,
+    users: Iuser[],
+    usersInGroups:any,
+    selectedGroup: Igroup,
+    getData:()=>void,
+    userLogin:(user:Iuser)=>void,
+    updateCurGroup:(group:Igroup)=>void,
+    updateMessageHistory:(groupArr:Igroup[])=>void
 }
 
 
-class App extends React.Component<{},Istate> {
+class App extends React.Component<AppProps,{}> {
+    private socket: SocketIOClient.Socket;
 
-    // constructor(props:){
-    //     super(props);
-    //     appService.getData()
-    //   this.state={
-    //       items:appStore.groups,
-    //       users:appStore.users,
-    //       selectedGroup:appStore.groups,
-    //       loggedUser:null
-    //   };
-    //     connectToChatRoom()
-    //
-    // appService.subscribe((newUsers:Iuser[],newGroups:Igroup)=>{
-    // this.setState({users:newUsers,items:newGroups});
-    // })
-    // }
+     constructor(props:any){
+         super(props);
+         this.socket = openSocket('http://localhost:4001')
+     }
+
 
   public render() {
     return (
         <BrowserRouter>
         <div className="ScreenContainer">
             {this.IsUserLoogedIn}
-            {console.log(this.props)}
-        <div className="topBar"><LoginTopBar loggedUser={this.state.loggedUser}/></div>
+        <div className="topBar"><LoginTopBar loggedUser={this.props.loggedUser}/></div>
                 <Switch>
                     <Route path='/' name='main' render={({}) => (
                         <div className="AppContainer">
                             <Route path='/login' name='login' render={({}) => (
                                 <LoginPopup  handleLogin={this.handleLogin}/>
                             )}/>
-                            <div className="SideBar" ><GroupsTree items={appStore.groups}
+                            <div className="SideBar" ><GroupsTree items={this.props.groups}
                                                                   updateCurGroup={this.updateCurGroup}/> </div>
-                            <div className="Main" ><MainContent selectedGroup={this.state.selectedGroup} handleSend={this.handleSend}/></div>
+                            <div className="Main" ><MainContent selectedGroup={this.props.selectedGroup} handleSend={this.handleSend} loggedUser={this.props.loggedUser}/></div>
                             <Route path='/users' name='manageUsersComp' render={({}) => (
-                                <ManageUsers users={appStore.users}/>
+                                <ManageUsers users={this.props.users}/>
                             )}/>
 
                             <Route path='/groups' name='manageGroupsComp' render={({}) => (
-                                <ManageGroups groups={appStore.groups}/>
+                                <ManageGroups groups={this.props.groups}/>
                             )}/>
                         </div>
                     )}/>
@@ -79,35 +73,45 @@ class App extends React.Component<{},Istate> {
 
 
   IsUserLoogedIn(){
-      if (!this.state.loggedUser) {
+      if (!this.props.loggedUser) {
           return <Redirect to='/login'/>;
       }
           return ""
   }
-  handleLogin(typedUsername:string,typedPassword:string){
-        const loggedUser=appStore.users.find((user)=>user.username===typedUsername&& user.password===typedPassword)
+  handleLogin=(typedUsername:string,typedPassword:string)=>{
+        const loggedUser=this.props.users.find((user)=>user.username===typedUsername && user.password===typedPassword)
       if(loggedUser){
-            appService.logIn(loggedUser)
+            this.props.userLogin(loggedUser)
       }
   }
     public componentDidMount() {
+        this.props.getData()
+        this.addMessageReceivedListener()
         this.arrowListeners()
+    }
+
+    addMessageReceivedListener() {
+        this.socket.on("updateClients",   (groupsArr:any)=>{
+            this.props.updateMessageHistory(groupsArr)
+        }
+           )
+    }
+     sendMessage(groupID:string, msg:Imessage){
+        this.socket.emit('sendMessage', groupID,msg);
     }
 
   updateCurGroup = (group:Igroup)=>{
 //if(group.type===2) {
-    this.setState({selectedGroup: group})
+    this.props.updateCurGroup(group)
 //}
   };
 
-//   handleSend= ( msg:Imessage)=>{
-//
-//       //const curGroup = this.state.selectedGroup;
-//       sendMessage(this.state.selectedGroup._id,msg)
-//
-// //      this.setState({selectedGroup:curGroup})
-//
-//   }
+  handleSend= ( msg:Imessage)=>{
+      if(this.props.selectedGroup)
+      this.sendMessage(this.props.selectedGroup["_id"],msg)
+
+
+  }
     arrowListeners() {
         document.addEventListener('keydown',(e)=>{
             let selected = $(".selected");
@@ -175,18 +179,17 @@ class App extends React.Component<{},Istate> {
         $li.addClass('selected');
 
         this.updateCurGroup($li.data('item'))
-
-
     }
-
 }
 
 
-const mapStateToProps = ({ groups,loggedUser,users,usersInGroups}:any, ownProps:any) => {
-    return {groups,
-        loggedUser,
-        users,
-        usersInGroups
+const mapStateToProps = (state:any, ownProps:any) => {
+    return {
+        groups:state.groups,
+        loggedUser:state.loggedUser,
+        users:state.users,
+        usersInGroups:state.usersInGroups,
+        selectedGroup:state.selectedGroup
     }
 };
 
@@ -195,6 +198,15 @@ const mapDispatchToProps = (dispatch:any, ownProps:any) => {
         getData: () => {
             dispatch(getData())
         },
+        updateMessageHistory:(groupsArr:Igroup[])=>{
+            dispatch(updateMessageHistory(groupsArr))
+        },
+        updateCurGroup:(group:Igroup)=>{
+            dispatch(updateCurrentGroup(group))
+        },
+        userLogin:(user:Iuser)=>{
+            dispatch(userLogin(user))
+        }
 
     }
 }
@@ -204,8 +216,6 @@ const ConnectedApp = connect(
     mapDispatchToProps
 )(App);
 
-console.log("ConnectedApp", ConnectedApp);
 
 export default ConnectedApp;
 
-//export default App;

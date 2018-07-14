@@ -6,11 +6,16 @@ import groupService from '../services/groupService';
 import GroupsTree from "../Components/GroupsTree";
 import {Link} from "react-router-dom";
 import UsersList from "./usersList"
-import {appStore} from "../StateStore";
+import {connect} from "react-redux";
+import Iuser from "../interfaces/iuser";
 
 interface Iprops {
-    groups: Igroup
+    groups: Igroup,
+    users:Iuser[],
 
+    createGroup:(parentId:string,groupName:string)=>void,
+    deleteGroup:(id:string)=>void,
+    updateUsersAtGroup:(groupId:string,usersIdArr:string[])=>void
 }
 
 class ManageGroups extends React.Component <Iprops, any>{
@@ -34,7 +39,7 @@ class ManageGroups extends React.Component <Iprops, any>{
     render() {
         let userList;
         if(this.state.showUsersList){
-            userList=<UsersList users={appStore.users} usersInGroups={this.state.selectedGroup.childs} saveUsers={this.handleSaveUsers}/>
+            userList=<UsersList users={this.props.users} usersInGroups={this.state.selectedGroup.childs} saveUsers={this.handleSaveUsers}/>
         } else {
             userList=""
         }
@@ -74,10 +79,9 @@ class ManageGroups extends React.Component <Iprops, any>{
         //}
     };
 
-
     private handleSaveUsers=(usersIdArr:string[])=> {
-        groupService.updateUsersAtGroup(this.state.selectedGroup._id,usersIdArr)
-this.setState({showUsersList:false})
+        this.props.updateUsersAtGroup(this.state.selectedGroup._id,usersIdArr)
+        this.setState({showUsersList:false})
     }
 
 
@@ -86,19 +90,43 @@ this.setState({showUsersList:false})
     }
 
     private handleDeleteGroup=()=> {
-        console.log(this.state.selectedGroup._id)
         if(this.state.selectedGroup._id){
-        groupService.deleteGroup(this.state.selectedGroup._id)
+            this.props.deleteGroup(this.state.selectedGroup._id)
     }}
 
     private handleCreateGroup=()=> {
         let selectedGroupId = this.state.selectedGroup._id;
         if(!selectedGroupId){selectedGroupId=0}
-            groupService.createGroup(selectedGroupId,this.state.groupName)
+            this.props.createGroup(selectedGroupId,this.state.groupName)
     }
 
     private handleAddUsers=() =>{
         this.setState({showUsersList:true})
     }
 }
-    export default ManageGroups;
+
+const mapStateToProps = (state: any, ownProps: any) => {
+    return {
+        users:state.users,
+        ownProps
+    }
+};
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+    return {
+        createGroup: (selectedGroupId:string,groupName:string)=>{
+            dispatch(groupService.createGroup(selectedGroupId,groupName))
+        },
+        deleteGroup: (groupId:string)=>{
+            dispatch( groupService.deleteGroup(groupId))
+        },
+        updateUsersAtGroup: (groupId:string,usersIdArr:string[])=>{
+            dispatch(groupService.updateUsersAtGroup(groupId,usersIdArr))
+        }
+    }
+};
+const connectedManageGroups = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ManageGroups)
+
+    export default connectedManageGroups;

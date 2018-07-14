@@ -13,7 +13,6 @@ class groupService {
         catch (err) {
             return err
         }
-
     }
 
     static async createGroup(parentGroupId, newGroupName) {

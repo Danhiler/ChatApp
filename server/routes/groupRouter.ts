@@ -13,7 +13,7 @@ groupRouter.delete('/:groupId', async (req, res) => {
 groupRouter.post('/', async (req,res)=>{ //create new Group
      let {newGroupName, parentId} = req.body
     if(+parentId===0){
-        parentId="5b4337c29d9333a909baa6c6";
+        parentId="5b487b4a448bcd338c859dd7";
     }
 
     const newGroupList = await groupServices.createGroup(parentId,newGroupName)

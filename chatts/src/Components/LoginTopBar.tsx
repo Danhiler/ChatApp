@@ -1,6 +1,5 @@
 import * as React from "react";
 import './LoginPop.css';
-import {appStore} from "../StateStore";
 import {Link} from "react-router-dom";
 
 
@@ -46,8 +45,8 @@ class LogintopBar extends React.Component<any,any>{
     //         })}
     // }
     //
-    showLoggedUsername() {
-        return appStore.loggedUser ? appStore.loggedUser.username : "Login";
+    showLoggedUsername=() =>{
+        return this.props.loggedUser ? this.props.loggedUser.username : "Login";
     }
 }
 export default LogintopBar

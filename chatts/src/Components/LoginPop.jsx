@@ -1,7 +1,7 @@
 import * as React from "react";
 import './LoginPop.css';
 
-import {appService, appStore} from "../StateStore";
+//import {appService, appStore} from "../StateStore";
 import Iuser from "../interfaces/iuser";
 import {Link} from "react-router-dom";
 
